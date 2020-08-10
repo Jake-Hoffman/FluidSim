@@ -14,6 +14,7 @@ public class FluidSimulation implements IGameLogic {
     private double[][] sources;
 
     private boolean mousePressed = false;
+    private boolean vectorsDisplayed = false;
     private double[] prevPos;
 
 
@@ -30,6 +31,7 @@ public class FluidSimulation implements IGameLogic {
 
     public void input(RenderWindow renderer){
         mousePressed = renderer.getMousePressed();
+        vectorsDisplayed = renderer.getKeyPressed();
     }
 
     public void update(float interval){
@@ -56,7 +58,7 @@ public class FluidSimulation implements IGameLogic {
 
         diffuse(.001, .1);
         advect( .1);
-        velocityDecay(.1,.1);
+        velocityDecay(.5,.1);
     }
 
     public void render(Graphics g){
@@ -82,7 +84,10 @@ public class FluidSimulation implements IGameLogic {
                     bg.fillRect((int) (xx * indivWidth), (int) (yy * indivHeight), (int) indivWidth, (int) indivHeight);
 
                     //This will show lines that point in the direction of the velocity for each pixel
-                    //vectorLine((int)(indivWidth + 2), (int)(xx * indivWidth), (int)(yy * indivHeight), p, bg);
+                    if (vectorsDisplayed) {
+                        vectorLine((int)(indivWidth + 2), (int)(xx * indivWidth), (int)(yy * indivHeight), p, bg);
+                    }
+                    
                 }
             }
 
@@ -101,9 +106,7 @@ public class FluidSimulation implements IGameLogic {
 
         int range1 = 25;
         int range2 = 50;
-
-
-        /*
+        
         if (density < range1){
             red = 240 - (int)((density/range1)*140);
             green = 240 - (int)((density/range1)*190);
@@ -115,25 +118,12 @@ public class FluidSimulation implements IGameLogic {
             blue = 23;
         } else if(density >= range2){
 
-            /*
-            Random r = new Random();
-
-            red = (int)(r.nextDouble() * 255);
-            green = (int)(r.nextDouble() * 255);
-            blue = (int)(r.nextDouble() * 255);
-
-
             red = 0;
             green = 0;
             blue = 5;
 
 
-        } */
-
-        red = (int)(density/20*255);
-        if (red > 255) red = 255;
-        green = red;
-        blue = red;
+        } 
 
         Color color = new Color(red, green, blue);
 

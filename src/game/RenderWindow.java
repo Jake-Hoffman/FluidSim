@@ -4,9 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+@SuppressWarnings("serial")
 public class RenderWindow extends JComponent implements KeyListener, MouseListener {
 
     private boolean mousePressed = false;
+    private boolean vectorsDisplayed = false;
     private String windowTitle;
     private int width;
     private int height;
@@ -34,6 +36,9 @@ public class RenderWindow extends JComponent implements KeyListener, MouseListen
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_SPACE) {
+            vectorsDisplayed = !vectorsDisplayed;
+        }
     }
 
     @Override
@@ -62,11 +67,15 @@ public class RenderWindow extends JComponent implements KeyListener, MouseListen
 
 
 
-    public boolean getMousePressed(){
+    public boolean getMousePressed() {
         return mousePressed;
     }
 
-    public void createAndShowGUI(){
+    public boolean getKeyPressed() {
+        return vectorsDisplayed;
+    }
+
+    public void createAndShowGUI() {
 
         JFrame f = new JFrame(windowTitle);
 
